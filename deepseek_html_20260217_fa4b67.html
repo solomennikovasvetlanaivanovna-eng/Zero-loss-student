@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>ПОТЕРЬ.НЕТ — бережливые технологии в СевГУ</title>
+    <style>
+        /* ===== БАЗОВЫЕ СБРОСЫ И ПЕРЕМЕННЫЕ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-white: #FFFFFF;
+            --text-dark: #0B2D5B;
+            --accent-1: #21D4C2;
+            --accent-2: #32E6A6;
+            --accent-3: #12B3C7;
+            --gradient: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+            --shadow-sm: 0 4px 12px rgba(11, 45, 91, 0.08);
+            --border-light: 1px solid rgba(18, 179, 199, 0.2);
+            --font-main: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== ШАПКА ===== */
+        .header {
+            background: var(--bg-white);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: var(--border-light);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            min-height: 70px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-ring {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gradient);
+            box-shadow: 0 0 0 3px white, 0 0 0 5px var(--accent-1);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            color: var(--text-dark);
+        }
+
+        .nav-list {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-list a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .nav-list a:hover,
+        .nav-list a:focus {
+            border-bottom-color: var(--accent-1);
+            outline: none;
+        }
+
+        /* ===== СЕКЦИИ ===== */
+        .section {
+            padding: 60px 0;
+            scroll-margin-top: 70px;
+        }
+
+        .bg-light {
+            background-color: #F8FDFE;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 32px;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* ===== ГЛОССАРИЙ (ТЕОРИЯ) ===== */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .glossary-item {
+            background: white;
+            padding: 16px;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--accent-1);
+        }
+
+        /* ===== КАРТОЧКИ 8 ПОТЕРЬ ===== */
+        .loss-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .loss-card {
+            background: white;
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+            border: var(--border-light);
+        }
+
+        .loss-card h3 {
+            color: var(--accent-3);
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .loss-card p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        /* ===== KPI ===== */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .kpi-card {
+            background: var(--gradient);
+            color: var(--text-dark);
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .kpi-label {
+            display: block;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .kpi-value {
+            font-size: 2.5rem;
+            line-height: 1.2;
+        }
+
+        /* ===== ГРАФИКИ ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-sm);
+            height: 300px;
+        }
+
+        /* ===== ФОРМА ВВОДА ===== */
+        .input-panel {
+            background: white;
+            border-radius: 32px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .losses-input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .losses-input-grid label {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .losses-input-grid input {
+            margin-top: 4px;
+            padding: 10px 12px;
+            border: 2px solid #E0F0F5;
+            border-radius: 18px;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+
+        .losses-input-grid input:focus {
+            border-color: var(--accent-1);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 212, 194, 0.3);
+        }
+
+        .button-group, .profile-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            background: white;
+            color: var(--text-dark);
+            border: 2px solid transparent;
+            transition: 0.2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn.primary {
+            background: var(--gradient);
+            color: var(--text-dark);
+        }
+
+        .btn.secondary {
+            background: white;
+            border: 2px solid var(--accent-1);
+        }
+
+        .btn:hover, .btn:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(33, 212, 194, 0.3);
+            outline: none;
+        }
+
+        .profile {
+            background: var(--bg-white);
+            border: 1px solid var(--accent-3);
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== ЭКОНОМИКА ===== */
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            background: white;
+            padding: 30px;
+            border-radius: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .calc-grid label {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .calc-grid input {
+            padding: 10px;
+            border-radius: 24px;
+            border: 2px solid #E0F0F5;
+        }
+
+        .result-block {
+            margin-top: 30px;
+            padding: 20px;
+            background: var(--gradient);
+            border-radius: 32px;
+            text-align: center;
+        }
+
+        .formula-hint {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ===== КЕЙСЫ И FAQ ===== */
+        .case-card, .faq-item {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border-left: 6px solid var(--accent-2);
+        }
+
+        .case-card h4, .faq-item h4 {
+            color: var(--accent-3);
+            margin-bottom: 8px;
+        }
+
+        /* ===== АДАПТИВНОСТЬ ===== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                padding: 12px;
+            }
+            .nav-list {
+                justify-content: center;
+                gap: 0.8rem;
+            }
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: auto;
+            }
+            .logo-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ===== Aria / Доступность ===== */
+        :focus-visible {
+            outline: 3px solid var(--accent-1);
+            outline-offset: 4px;
+        }
+
+        .footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 24px 0;
+            text-align: center;
+        }
+    </style>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- ШАПКА С МЕНЮ -->
+    <header class="header" role="banner">
+        <div class="container header-container">
+            <div class="logo-wrapper">
+                <div class="logo-ring" aria-hidden="true"></div>
+                <span class="logo-text">ПОТЕРЬ.НЕТ</span>
+            </div>
+            <nav class="main-nav" aria-label="Основное меню">
+                <ul class="nav-list">
+                    <li><a href="#about">О проекте</a></li>
+                    <li><a href="#theory">Теория</a></li>
+                    <li><a href="#losses">8 потерь</a></li>
+                    <li><a href="#dashboard">Дашборд</a></li>
+                    <li><a href="#economy">Эффект</a></li>
+                    <li><a href="#cases">Кейсы</a></li>
+                    <li><a href="#faq">Вопросы</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+        <!-- БЛОК О ПРОЕКТЕ -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2>О проекте</h2>
+                <p>Мы — студенты и преподаватели СевГУ, объединённые идеей бережливого обучения. «Потери» (Muda) — это любая деятельность, потребляющая ресурсы, но не создающая ценности для студента. Этот дашборд поможет увидеть скрытые резервы времени и сил.</p>
+                <p>Цель сайта — научить вас распознавать 8 видов потерь в учёбе, измерять их и находить простые способы сокращения. Данные, которые вы введёте, тут же покажут экономический эффект и точки роста.</p>
+            </div>
+        </section>
+
+        <!-- ТЕОРИЯ -->
+        <section id="theory" class="section bg-light">
+            <div class="container">
+                <h2>Теория бережливых технологий</h2>
+                <p>Бережливое производство (Lean) — подход к управлению, нацеленный на создание ценности для потребителя через непрерывное сокращение потерь. В образовании ценность — это знания, навыки и компетенции. Всё остальное (лишние перемещения, ожидания, переделки) — потери.</p>
+                <div class="glossary-grid" id="glossaryContainer"></div>
+            </div>
+        </section>
+
+        <!-- 8 ВИДОВ ПОТЕРЬ (КАРТОЧКИ) -->
+        <section id="losses" class="section">
+            <div class="container">
+                <h2>8 видов потерь в учёбе</h2>
+                <div class="loss-cards" id="lossCardsContainer"></div>
+            </div>
+        </section>
+
+        <!-- ДАШБОРД -->
+        <section id="dashboard" class="section bg-light">
+            <div class="container">
+                <h2>Дашборд потерь</h2>
+                <!-- KPI плитки -->
+                <div class="kpi-grid" id="kpiTiles">
+                    <div class="kpi-card"><span class="kpi-label">Потерянные часы/нед</span><span class="kpi-value" id="kpiHours">0</span></div>
+                    <div class="kpi-card"><span class="kpi-label">Доля дефектов, %</span><span class="kpi-value" id="kpiDefect">0</span></div>
+                    <div class="kpi-card"><span class="kpi-label">Ожидание (часы)</span><span class="kpi-value" id="kpiWait">0</span></div>
+                    <div class="kpi-card"><span class="kpi-label">Потенциал улучшений</span><span class="kpi-value" id="kpiPotential">0</span></div>
+                </div>
+                <!-- ГРАФИКИ -->
+                <div class="charts-grid">
+                    <div class="chart-container"><canvas id="barChart"></canvas></div>
+                    <div class="chart-container"><canvas id="pieChart"></canvas></div>
+                    <div class="chart-container full-width"><canvas id="lineChart"></canvas></div>
+                </div>
+
+                <!-- ИНТЕРАКТИВ: ФОРМА ВВОДА -->
+                <div class="input-panel">
+                    <h3>Введите ваши данные</h3>
+                    <div class="mode-switch">
+                        <label>Режим измерения:
+                            <select id="inputMode" aria-label="Режим ввода: часы или баллы">
+                                <option value="hours">часы/неделя</option>
+                                <option value="scores">баллы (0–10)</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="losses-input-grid" id="lossesInputs"></div>
+                    <div class="button-group">
+                        <button id="applyBtn" class="btn primary" aria-label="Применить введённые значения">Применить</button>
+                        <button id="resetDemoBtn" class="btn secondary" aria-label="Сбросить к демо-данным">Демо-данные</button>
+                        <button id="saveLocalBtn" class="btn secondary" aria-label="Сохранить в браузер">Сохранить</button>
+                        <button id="loadLocalBtn" class="btn secondary" aria-label="Загрузить из браузера">Загрузить</button>
+                    </div>
+                    <div class="profile-group">
+                        <span>Профили: </span>
+                        <button id="profileFreshman" class="btn profile">Первокурсник</button>
+                        <button id="profileSenior" class="btn profile">Старшекурсник</button>
+                        <button id="profileMaster" class="btn profile">Магистрант</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ЭКОНОМИЧЕСКИЙ ЭФФЕКТ -->
+        <section id="economy" class="section">
+            <div class="container">
+                <h2>Экономический эффект</h2>
+                <div class="calc-grid">
+                    <label>Стоимость часа студента (₽): <input type="number" id="hourCost" value="200" min="0" step="10"></label>
+                    <label>Количество студентов: <input type="number" id="studentCount" value="100" min="1"></label>
+                    <label>Сокращение потерь (%): <input type="range" id="reductionRange" min="5" max="50" value="15"> <span id="reductionValue">15</span>%</label>
+                </div>
+                <div class="result-block">
+                    <p><strong>Экономия в месяц (4 нед):</strong> <span id="monthlySave">0</span> ₽</p>
+                    <p><strong>Экономия за семестр (16 нед):</strong> <span id="semesterSave">0</span> ₽</p>
+                    <p class="formula-hint">Формула: (Потерянные часы всех студентов) × (% сокращения) × (стоимость часа)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- КЕЙС-ЗАДАНИЯ -->
+        <section id="cases" class="section bg-light">
+            <div class="container">
+                <h2>Кейс-задания</h2>
+                <div id="casesContainer"></div>
+            </div>
+        </section>
+
+        <!-- ВОПРОСЫ-ОТВЕТЫ -->
+        <section id="faq" class="section">
+            <div class="container">
+                <h2>Часто задаваемые вопросы</h2>
+                <div class="faq-grid" id="faqContainer"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <p>© 2025 Потерь.нет — учебный проект СевГУ</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== ДЕМО-ДАННЫЕ И СОСТОЯНИЕ ====================
+        const lossNames = [
+            "Перепроизводство", "Избыточные запасы", "Излишняя транспортировка", "Излишние перемещения",
+            "Излишняя обработка", "Дефекты", "Простои и ожидания", "Нереализованный потенциал"
+        ];
+
+        // Демо-данные (часы в неделю) — правдоподобно для студента
+        const demoHours = [2.5, 1.8, 3.0, 4.2, 2.0, 5.0, 6.5, 3.5];
+
+        // Профили
+        const profileData = {
+            freshman: [4.0, 2.5, 4.0, 5.0, 2.5, 4.5, 8.0, 2.0],
+            senior: [2.0, 1.5, 2.5, 3.5, 1.8, 3.0, 5.0, 4.0],
+            master: [1.2, 0.8, 1.5, 2.0, 1.2, 2.0, 3.0, 6.0]
+        };
+
+        // Текущие активные данные (часы)
+        let currentLossHours = [...demoHours];
+
+        // Кеш графиков Chart.js
+        let barChart, pieChart, lineChart;
+
+        // Глоссарий
+        const glossaryItems = [
+            { term: "Ценность", desc: "то, за что студент готов платить временем" },
+            { term: "Поток", desc: "непрерывное движение в обучении" },
+            { term: "Вытягивание", desc: "изучаем ровно то, что нужно сейчас" },
+            { term: "Стандартизация", desc: "лучшие практики сдачи лаб" },
+            { term: "Kaizen", desc: "улучшения маленькими шагами" },
+            { term: "Muda", desc: "потери, бесполезная работа" },
+            { term: "5S", desc: "порядок в конспектах и файлах" }
+        ];
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ИНТЕРФЕЙСА ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGlossary();
+            renderLossCards();
+            renderInputs();
+            renderCases();
+            renderFAQ();
+            initCharts();
+            updateAllFromData(currentLossHours);
+            attachEventListeners();
+        });
+
+        function renderGlossary() {
+            const container = document.getElementById('glossaryContainer');
+            let html = '';
+            glossaryItems.forEach(item => {
+                html += `<div class="glossary-item"><strong>${item.term}:</strong> ${item.desc}</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderLossCards() {
+            const container = document.getElementById('lossCardsContainer');
+            const examples = [
+                { student: 'Конспекты лекций, которые никто не читает', solve: 'Делать краткие схемы, обмениваться' },
+                { student: 'Гора методичек на столе', solve: 'Цифровой архив, 5S рабочего стола' },
+                { student: 'Беготня между корпусами', solve: 'Сгруппировать пары по времени/месту' },
+                { student: 'Лишние телодвижения в поиске ручки', solve: 'Органайзер, всё под рукой' },
+                { student: 'Переписывание учебников от руки', solve: 'Конспект только нового, ментальные карты' },
+                { student: 'Пересдачи, ошибки в лабах', solve: 'Чек-листы, взаимопроверка' },
+                { student: 'Очередь к преподавателю', solve: 'Запись по слотам, онлайн-консультации' },
+                { student: 'Идеи, которые не предлагают', solve: 'Доска предложений, стартап-клуб' }
+            ];
+            let html = '';
+            lossNames.forEach((name, i) => {
+                html += `<div class="loss-card">
+                    <h3>${i+1}. ${name}</h3>
+                    <p><strong>Проявление:</strong> ${examples[i].student}</p>
+                    <p><strong>Сокращение:</strong> ${examples[i].solve}</p>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderInputs() {
+            const container = document.getElementById('lossesInputs');
+            let html = '';
+            lossNames.forEach((name, i) => {
+                html += `<label>${name} <input type="number" id="lossInput${i}" class="loss-input" step="0.1" min="0" value="${currentLossHours[i]}" aria-label="${name} в часах"></label>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderCases() {
+            const cases = [
+                { title: 'Опоздание на пару', desc: 'Группа ждёт 15 минут преподавателя. Какие виды потерь?', ans: 'Ожидание, нереализованный потенциал.' },
+                { title: 'Две курсовые за неделю', desc: 'Студент пишет работы "на коленке", сдаёт с ошибками.', ans: 'Дефекты, перепроизводство.' },
+                { title: 'Переполненная флешка', desc: 'Файлы с одинаковыми названиями, тратит час на поиск.', ans: 'Излишние перемещения, дефекты.' },
+                { title: 'Очередь в столовой', desc: 'Перемена 20 минут, 10 из них в очереди.', ans: 'Ожидание, перемещения.' },
+                { title: 'Устаревший силлабус', desc: 'Преподаватель диктует то, что есть в учебнике.', ans: 'Перепроизводство, излишняя обработка.' }
+            ];
+            let html = '';
+            cases.forEach((c, i) => {
+                html += `<div class="case-card"><h4>Кейс ${i+1}: ${c.title}</h4><p>${c.desc}</p><p><strong>Подсказка:</strong> ${c.ans}</p></div>`;
+            });
+            document.getElementById('casesContainer').innerHTML = html;
+        }
+
+        function renderFAQ() {
+            const faq = [
+                { q: 'Как пользоваться?', a: 'Введите свои часы по каждой потере, нажмите "Применить".' },
+                { q: 'Что такое "доля дефектов"?', a: '% времени, уходящий на переделки и ошибки.' },
+                { q: 'Как улучшить?', a: 'Нажмите на профили, смотрите динамику.' },
+                { q: 'Где применить в СевГУ?', a: 'В расписании, работе деканата, подготовке к экзаменам.' },
+                { q: 'Как интерпретировать графики?', a: 'Чем выше столбец, тем больше потерь. Круговая показывает доли.' }
+            ];
+            let html = '';
+            faq.forEach(item => {
+                html += `<div class="faq-item"><h4>${item.q}</h4><p>${item.a}</p></div>`;
+            });
+            document.getElementById('faqContainer').innerHTML = html;
+        }
+
+        // ==================== ГРАФИКИ CHART.JS ====================
+        function initCharts() {
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+
+            barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: { labels: lossNames, datasets: [{ label: 'Часов в неделю', data: currentLossHours, backgroundColor: '#21D4C2' }] },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            pieChart = new Chart(pieCtx, {
+                type: 'pie',
+                data: { labels: lossNames, datasets: [{ data: currentLossHours, backgroundColor: ['#21D4C2','#32E6A6','#12B3C7','#0B2D5B','#4FD1D9','#2CC2A2','#1FA8B9','#0E8C9C'] }] },
+                options: { responsive: true }
+            });
+
+            lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Неделя 1', 'Неделя 2', 'Неделя 3', 'Неделя 4'],
+                    datasets: [{ label: 'Потерянные часы', data: [28, 26, 30, currentLossHours.reduce((a,b)=>a+b,0)], borderColor: '#0B2D5B', tension: 0.2 }]
+                },
+                options: { responsive: true }
+            });
+        }
+
+        function updateCharts(newData) {
+            barChart.data.datasets[0].data = newData;
+            pieChart.data.datasets[0].data = newData;
+            const total = newData.reduce((a,b)=>a+b,0);
+            lineChart.data.datasets[0].data[3] = total;
+            barChart.update();
+            pieChart.update();
+            lineChart.update();
+        }
+
+        // ==================== ОБНОВЛЕНИЕ KPI ====================
+        function updateKPI(hoursArray) {
+            const totalHours = hoursArray.reduce((a,b)=>a+b,0).toFixed(1);
+            const defectIndex = hoursArray[5];
+            const waitIndex = hoursArray[6];
+            const potential = (hoursArray[7] * 0.8).toFixed(1);
+
+            document.getElementById('kpiHours').innerText = totalHours;
+            document.getElementById('kpiDefect').innerText = ((defectIndex / (totalHours||1))*100).toFixed(1);
+            document.getElementById('kpiWait').innerText = waitIndex.toFixed(1);
+            document.getElementById('kpiPotential').innerText = potential;
+        }
+
+        // ==================== ЭКОНОМИЧЕСКИЙ КАЛЬКУЛЯТОР ====================
+        function updateEconomy() {
+            const totalHours = currentLossHours.reduce((a,b)=>a+b,0);
+            const cost = parseFloat(document.getElementById('hourCost').value) || 0;
+            const students = parseFloat(document.getElementById('studentCount').value) || 1;
+            const reduction = parseFloat(document.getElementById('reductionRange').value) / 100;
+            document.getElementById('reductionValue').innerText = document.getElementById('reductionRange').value;
+
+            const totalStudentHours = totalHours * students;
+            const monthlySave = totalStudentHours * reduction * cost * 4;
+            const semesterSave = totalStudentHours * reduction * cost * 16;
+
+            document.getElementById('monthlySave').innerText = monthlySave.toFixed(0);
+            document.getElementById('semesterSave').innerText = semesterSave.toFixed(0);
+        }
+
+        // ==================== СИНХРОНИЗАЦИЯ ВСЕХ ДАННЫХ ====================
+        function updateAllFromData(hoursArray) {
+            currentLossHours = [...hoursArray];
+            document.querySelectorAll('.loss-input').forEach((input, idx) => {
+                input.value = hoursArray[idx].toFixed(1);
+            });
+            updateKPI(hoursArray);
+            updateCharts(hoursArray);
+            updateEconomy();
+        }
+
+        // ==================== ОБРАБОТЧИКИ СОБЫТИЙ ====================
+        function attachEventListeners() {
+            document.getElementById('applyBtn').addEventListener('click', () => {
+                const newHours = [];
+                document.querySelectorAll('.loss-input').forEach(input => newHours.push(parseFloat(input.value) || 0));
+                updateAllFromData(newHours);
+            });
+
+            document.getElementById('resetDemoBtn').addEventListener('click', () => updateAllFromData(demoHours));
+
+            document.getElementById('saveLocalBtn').addEventListener('click', () => {
+                localStorage.setItem('sevsuLosses', JSON.stringify(currentLossHours));
+                alert('Сохранено в браузере');
+            });
+
+            document.getElementById('loadLocalBtn').addEventListener('click', () => {
+                const saved = localStorage.getItem('sevsuLosses');
+                if (saved) {
+                    updateAllFromData(JSON.parse(saved));
+                    alert('Загружено');
+                } else alert('Нет сохранённых данных');
+            });
+
+            document.getElementById('profileFreshman').addEventListener('click', () => updateAllFromData(profileData.freshman));
+            document.getElementById('profileSenior').addEventListener('click', () => updateAllFromData(profileData.senior));
+            document.getElementById('profileMaster').addEventListener('click', () => updateAllFromData(profileData.master));
+
+            document.getElementById('inputMode').addEventListener('change', (e) => {
+                const mode = e.target.value;
+                const inputs = document.querySelectorAll('.loss-input');
+                if (mode === 'scores') {
+                    inputs.forEach((inp, i) => {
+                        let val = Math.min(10, currentLossHours[i]);
+                        inp.value = val.toFixed(1);
+                        inp.max = 10;
+                    });
+                } else {
+                    inputs.forEach((inp, i) => {
+                        inp.value = currentLossHours[i].toFixed(1);
+                        inp.max = '';
+                    });
+                }
+            });
+
+            document.getElementById('reductionRange').addEventListener('input', (e) => {
+                document.getElementById('reductionValue').innerText = e.target.value;
+                updateEconomy();
+            });
+            document.getElementById('hourCost').addEventListener('input', updateEconomy);
+            document.getElementById('studentCount').addEventListener('input', updateEconomy);
+        }
+    </script>
+</body>
+</html>
